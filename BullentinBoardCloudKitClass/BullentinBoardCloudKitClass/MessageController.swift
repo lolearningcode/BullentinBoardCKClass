@@ -89,4 +89,29 @@ class MessageController {
             completion(nil)
         }
     }
+    
+    func requestDiscoverabilityAuth(completion: @escaping (CKContainer_Application_PermissionStatus, Error?) -> Void) {
+        
+        CKContainer.default().status(forApplicationPermission: .userDiscoverability) { (status, error) in
+            guard status != .granted else { completion(.granted, error); return }
+        }
+        CKContainer.default().requestApplicationPermission(.userDiscoverability, completionHandler: completion)
+    }
+    
+    func fetchAllDiscoverableUsers(completion: @escaping ([CKUserIdentity], Error?) -> Void) {
+        let discoverIdentity = CKDiscoverAllUserIdentitiesOperation()
+        var discoveredIds: [CKUserIdentity] = []
+        discoverIdentity.userIdentityDiscoveredBlock = { identity in
+            discoveredIds.append(identity)
+        }
+        discoverIdentity.discoverAllUserIdentitiesCompletionBlock = { error in
+            completion(discoveredIds, error)
+        }
+        
+        CKContainer.default().add(discoverIdentity)
+    }
+    
+    func fetchUserIdentityWith(email: String, completion: @escaping (CKUserIdentity?, Error?) -> Void) {
+        CKContainer.default().discoverUserIdentity(withEmailAddress: email, completionHandler: completion)
+    }
 }

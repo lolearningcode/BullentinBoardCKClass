@@ -29,6 +29,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIApplication.shared.registerForRemoteNotifications()
             }
         }
+        
+        MessageController.shared.fetchAllDiscoverableUsers { (users, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            users.forEach({ (user) in
+                print(user)
+            })
+        }
+        
+        MessageController.shared.requestDiscoverabilityAuth { (permission, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
         // Override point for customization after application launch.
         return true
     }
