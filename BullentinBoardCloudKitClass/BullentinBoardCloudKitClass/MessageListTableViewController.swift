@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class MessageListTableViewController: UITableViewController {
     @IBOutlet weak var messageTextField: UITextField!
@@ -20,15 +21,25 @@ class MessageListTableViewController: UITableViewController {
                 }
             }
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadViews), name: AppDelegate.messageNotification, object: nil)
+    }
+    
+    @objc func reloadViews() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func postButtonTapped(_ sender: Any) {
         guard let messageText = messageTextField.text else { return }
-        MessageController.shared.createMessage(text: messageText, timestamp: Date())
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        MessageController.shared.createMessage(text: messageText, timestamp: Date()) { (success) in
+            if success {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.messageTextField.text = ""
+                }
+            }
         }
-        messageTextField.text = ""
     }
     // MARK: - Table view data source
     
@@ -61,3 +72,4 @@ class MessageListTableViewController: UITableViewController {
         }
     }
 }
+

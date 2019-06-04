@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Bullentin Board-->
         <scene sceneID="0Bk-pu-2k9">
             <objects>
                 <tableViewController id="Op2-vh-Dul" customClass="MessageListTableViewController" customModule="BullentinBoardCloudKitClass" customModuleProvider="target" sceneMemberID="viewController">
@@ -80,7 +80,7 @@
                             <outlet property="delegate" destination="Op2-vh-Dul" id="lUj-2X-4Xq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="lDf-Hb-T3v"/>
+                    <navigationItem key="navigationItem" title="Bullentin Board" id="lDf-Hb-T3v"/>
                     <connections>
                         <outlet property="messageTextField" destination="qRY-z1-nAk" id="Jzw-uJ-5I4"/>
                     </connections>
